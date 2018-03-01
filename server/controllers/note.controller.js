@@ -15,13 +15,14 @@ export function addNote(req, res) {
 	});
 
 	newNote.id = uuid();
+	newNote.laneId = laneId;
 	newNote.save((err, saved) => {
 		if (err) {
 			res.status(500).send(err);
 		}
 		Lane.findOne({ id: laneId })
 			.then(lane => {
-			lane.notes.push(saved);
+			lane.notes.push(saved._id);
 			return lane.save();
 			})
 			.then(() => {
@@ -39,7 +40,7 @@ export function deleteNote(req, res) {
 		}
 
 		Lane
-		.findOne({ notes: { $in: [mongoose.Types.ObjectId(note._id)] } })
+		.findOne({ id: note.laneId })
 		.exec((laneErr, lane) => {
 			if (laneErr) {
 				res.status(500).send(laneErr);
@@ -47,7 +48,7 @@ export function deleteNote(req, res) {
 
 			lane
 			.update(
-				{ $pull: { notes: mongoose.Types.ObjectId(note._id) } },
+				{ $pull: { notes: note._id } },
 				(updateErr) => {
 					if (updateErr) {
 						res.status(500).send(updateErr);
