@@ -15,7 +15,6 @@ export function addNote(req, res) {
 	});
 
 	newNote.id = uuid();
-	newNote.laneId = laneId;
 	newNote.save((err, saved) => {
 		if (err) {
 			res.status(500).send(err);
@@ -40,7 +39,7 @@ export function deleteNote(req, res) {
 		}
 
 		Lane
-		.findOne({ id: note.laneId })
+		.findOne({ notes: { $in: [mongoose.Types.ObjectId(note._id)] } })
 		.exec((laneErr, lane) => {
 			if (laneErr) {
 				res.status(500).send(laneErr);
