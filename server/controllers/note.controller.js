@@ -21,11 +21,11 @@ export function addNote(req, res) {
 		}
 		Lane.findOne({ id: laneId })
 			.then(lane => {
-			lane.notes.push(saved._id);
-			return lane.save();
+				lane.notes.push(saved._id);
+				return lane.save();
 			})
 			.then(() => {
-			res.json(saved);
+				res.json(saved);
 			});
 	});
 }
