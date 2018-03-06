@@ -1,1 +1,18 @@
 /* Note styles */
+.Note {
+	list-style: none;
+	margin-top: 4px;
+}
+
+.Note > div > div {
+	padding: 3px 0 3px 10px;
+	width: 100%;
+	margin: 0 auto;
+	background-color: #ccc;
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+.notes input {
+	max-width: 100%;
+}
